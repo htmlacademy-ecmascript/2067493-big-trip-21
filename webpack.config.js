@@ -12,12 +12,20 @@ module.exports = {
   plugins : [
     new CopyPlagins(
       {
-        patterns: [
-          {
-            from: 'public',
-          }
-        ]
+        patterns: [{from: 'public'}]
       }
     )
-  ]
+  ],
+  module: {
+    rules: [
+      {
+        test:/\.js/,
+        exlude: /(node_modules)/,
+        use: {
+          loaders: 'babel - loaders',
+          options: {presets: ['@babel/preset-env']}
+        }
+      }
+    ]
+  }
 }
