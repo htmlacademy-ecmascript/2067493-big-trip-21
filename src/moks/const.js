@@ -32,4 +32,10 @@ const DESCRIPTION = [
   'Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.'
 ];
 
-export {CITIES, TYPES, DESCRIPTION};
+const DATE_FORMAT = {
+  dateTimeClass: 'YYYY-MM-DD[T]HH:mm',
+  dateClass: 'YYYY-MM-DD',
+  dateValue: 'MMM DD',
+  timeValue: 'HH:mm'
+};
+export {CITIES, TYPES, DESCRIPTION, DATE_FORMAT};

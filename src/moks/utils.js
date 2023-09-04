@@ -1,3 +1,6 @@
+import dayjs from 'dayjs';
+
+
 // Функция которая дает рандомное число из задаваемого отрезка
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -12,5 +15,7 @@ const getRandomArrayElement = (elements) => elements[getRandomInteger(0, element
 //Создание рандомного ID
 const getRandomId = (length = 5) => Math.random().toString(36).substring(2, length + 2);
 
-export {getRandomInteger, getRandomArrayElement, getRandomId};
+const reformatDate = (format, date) => dayjs(date).format(format);
+//Переформатировать в нужный формат
+export {getRandomInteger, getRandomArrayElement, getRandomId, reformatDate};
 
