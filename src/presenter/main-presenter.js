@@ -11,18 +11,21 @@ export default class MainPresenter {
   newFormPoint = new FormNewPoint;
   formEditingPoint = new FormEditingPoint;
 
-  constructor (container) {
+  constructor ({container, pointsModel}) {
     this.container = container;
+    this.pointsModel = pointsModel;
   }
 
   init() {
+    this.point = [...this.pointsModel.getPoints()];
+
     render (this.listSotring, this.container);
     render (this.listPoint, this.container);
     render (this.newFormPoint, this.listPoint.getElement());
     render (this.formEditingPoint, this.listPoint.getElement());
 
-    for (let i = 0; i < 3; i++){
-      render (new Point, this.listPoint.getElement());
+    for (let i = 0; i < this.point.length; i++){
+      render (new Point({point: this.point[i]}), this.listPoint.getElement());
     }
   }
 }

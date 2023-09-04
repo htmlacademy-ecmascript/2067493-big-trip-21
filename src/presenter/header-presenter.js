@@ -6,7 +6,7 @@ export default class HeaderPresenter {
   tripInfo = new TripInfo();
   listFilter = new ListFilter();
 
-  constructor (infoContainer, filterContainer) {
+  constructor ({infoContainer, filterContainer}) {
     this.infoContainer = infoContainer;
     this.filterContainer = filterContainer;
   }

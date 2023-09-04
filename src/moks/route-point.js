@@ -23,5 +23,4 @@ const createRoutePoint = () => {
   };
 };
 
-const point = Array.from({length: getRandomInteger(3, 10)}, createRoutePoint);
-export { point };
+export { createRoutePoint };
