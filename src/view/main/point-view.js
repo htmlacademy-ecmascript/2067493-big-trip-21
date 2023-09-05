@@ -1,9 +1,10 @@
 import { createElement } from '../../render.js';
 import { reformatDate } from '../../moks/utils.js';
 import { DATE_FORMAT } from '../../moks/const.js';
+import { destinations } from '../../moks/destination.js';
 
 function createPointTemplate(point) {
-  const { basePrice, dateFrom, dateTo, isFavorite, type } = point;
+  const { basePrice, dateFrom, dateTo, isFavorite, destination, type } = point;
 
   const date = {
     class: reformatDate(DATE_FORMAT.dateClass, dateFrom),
@@ -23,6 +24,8 @@ function createPointTemplate(point) {
 
   const classFavorite = getClassFavorite();
 
+  const isDestination = destinations.find((item) => item.id === destination);
+
   return `
   <li class="trip-events__item">
   <div class="event">
@@ -30,7 +33,7 @@ function createPointTemplate(point) {
     <div class="event__type">
       <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
     </div>
-    <h3 class="event__title">Taxi Amsterdam</h3>
+    <h3 class="event__title">${type} ${isDestination.city}</h3>
     <div class="event__schedule">
       <p class="event__time">
         <time class="event__start-time" datetime="${date.fromTimeClass}">${date.fromTimeValue}</time>
@@ -44,11 +47,6 @@ function createPointTemplate(point) {
     </p>
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">
-      <li class="event__offer">
-        <span class="event__offer-title">Order Uber</span>
-        &plus;&euro;&nbsp;
-        <span class="event__offer-price">20</span>
-      </li>
     </ul>
     <button class="event__favorite-btn ${classFavorite}" type="button">
       <span class="visually-hidden">Add to favorite</span>

@@ -4,7 +4,7 @@ import ListPoint from '../view/main/list-point-view.js';
 import FormNewPoint from '../view/main/new-form-point-view.js';
 import FormEditingPoint from '../view/main/form-editing-point-view.js';
 import Point from '../view/main/point-view.js';
-
+import OffersItem from '../view/main/offer-view.js';
 export default class MainPresenter {
   listSotring = new ListSorting;
   listPoint = new ListPoint;
@@ -25,7 +25,14 @@ export default class MainPresenter {
     render (this.formEditingPoint, this.listPoint.getElement());
 
     for (let i = 0; i < this.point.length; i++){
-      render (new Point({point: this.point[i]}), this.listPoint.getElement());
+      const point = new Point({point: this.point[i]});
+      const offerList = point.getElement().querySelector('.event__selected-offers');
+      render (point, this.listPoint.getElement());
+      for(let j = 0; j < this.point[i].offers.length; j++) {
+        render(new OffersItem({
+          pointOfferId: this.point[i].offers[j],
+          pointOfferType:this.point[i].type}), offerList);
+      }
     }
   }
 }
