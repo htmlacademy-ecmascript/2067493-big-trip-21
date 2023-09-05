@@ -36,6 +36,7 @@ const DATE_FORMAT = {
   dateTimeClass: 'YYYY-MM-DD[T]HH:mm',
   dateClass: 'YYYY-MM-DD',
   dateValue: 'MMM DD',
-  timeValue: 'HH:mm'
+  timeValue: 'HH:mm',
+  dateFormEditing: 'DD/MM/YY HH:MM'
 };
 export {CITIES, TYPES, DESCRIPTION, DATE_FORMAT};

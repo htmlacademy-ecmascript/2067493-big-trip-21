@@ -14,7 +14,6 @@ const createRoutePoint = () => {
   const day = getRandomInteger(1, 31);
   return {
     id: getRandomId(6),
-
     basePrice: getRandomInteger(50, 500),
     dateFrom: new Date(new Date(`2023-${month}-${day}`).getTime() + getRandomInteger(1000, 5000) * getRandomInteger(60, 3600)),
     dateTo: new Date(new Date(`2023-${month}-${day}`).getTime() + getRandomInteger(5000, 10000) * getRandomInteger(60, 3600)),

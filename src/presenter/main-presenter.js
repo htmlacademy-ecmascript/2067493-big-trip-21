@@ -9,7 +9,6 @@ export default class MainPresenter {
   listSotring = new ListSorting;
   listPoint = new ListPoint;
   newFormPoint = new FormNewPoint;
-  formEditingPoint = new FormEditingPoint;
 
   constructor ({container, pointsModel}) {
     this.container = container;
@@ -18,11 +17,12 @@ export default class MainPresenter {
 
   init() {
     this.point = [...this.pointsModel.getPoints()];
+    this.pointEdithing = this.pointsModel.getPointEdithing();
 
     render (this.listSotring, this.container);
     render (this.listPoint, this.container);
     render (this.newFormPoint, this.listPoint.getElement());
-    render (this.formEditingPoint, this.listPoint.getElement());
+    render (new FormEditingPoint({pointEdithing: this.pointEdithing}), this.listPoint.getElement());
 
     for (let i = 0; i < this.point.length; i++){
       const point = new Point({point: this.point[i]});
