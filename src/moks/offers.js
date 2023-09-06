@@ -11,7 +11,7 @@ const generateOffer = (type) => ({
 
 const createOffers = (type) => ({
   type,
-  offers: Array.from({length: getRandomInteger(0,3)}, () => generateOffer(type))
+  offers: Array.from({length: getRandomInteger(0, 6)}, () => generateOffer(type))
 });
 
 TYPES.forEach((type) => offers.push(createOffers(type)));
