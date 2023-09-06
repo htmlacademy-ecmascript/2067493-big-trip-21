@@ -2,7 +2,7 @@ import { createElement } from '../../render.js';
 import { reformatDate } from '../../moks/utils.js';
 import { DATE_FORMAT } from '../../moks/const.js';
 import { destinations } from '../../moks/destination.js';
-import { createOffersTemplate } from './offers-template.js';
+import { createOffersListPointTemplate } from './template/offers-list-point-template.js';
 
 function createPointTemplate(point) {
   const { basePrice, dateFrom, dateTo, isFavorite, destination, type } = point;
@@ -48,7 +48,7 @@ function createPointTemplate(point) {
     </p>
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">
-    ${createOffersTemplate(point)}
+    ${createOffersListPointTemplate(point)}
     </ul>
     <button class="event__favorite-btn ${classFavorite}" type="button">
       <span class="visually-hidden">Add to favorite</span>

@@ -1,7 +1,6 @@
+import { offers } from '../../../moks/offers.js';
 
-import { offers } from '../../moks/offers.js';
-
-const createOffersTemplate = (point) => {
+const createOffersListPointTemplate = (point) => {
   const isTypeOffers = offers.find((item) => item.type === point.type);
   const offersId = isTypeOffers.offers.filter((item) => point.offers.includes(item.id));
   return offersId.map((item) =>
@@ -13,4 +12,4 @@ const createOffersTemplate = (point) => {
     </li>`).join(' ');
 };
 
-export { createOffersTemplate };
+export { createOffersListPointTemplate };

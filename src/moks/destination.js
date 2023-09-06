@@ -16,4 +16,5 @@ const createDestination = (city) => ({
 });
 
 CITIES.forEach((city) => destinations.push(createDestination(city)));
+console.log(destinations);
 export { destinations };
