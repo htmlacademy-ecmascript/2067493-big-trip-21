@@ -3,13 +3,14 @@ import { reformatDate } from '../../moks/utils.js';
 import { DATE_FORMAT } from '../../moks/const.js';
 import { createTypesEditingTemplate } from './template/type-editing-template.js';
 import { createOffersEditFormTemplate } from './template/offers-edit-form-template.js';
+import { createDistinationEditTemplate } from './template/destination-edit-template.js';
+
 function createFormEditingPointTemplate (pointEdithing) {
   const {basePrice, dateFrom, dateTo, type,} = pointEdithing;
   const date = {
     from: reformatDate(DATE_FORMAT.dateFormEditing, dateFrom),
     to: reformatDate(DATE_FORMAT.dateFormEditing, dateTo),
   };
-  createOffersEditFormTemplate(pointEdithing);
   return `
   <li class="trip-events__item">
   <form class="event event--edit" action="#" method="post">
@@ -35,9 +36,7 @@ function createFormEditingPointTemplate (pointEdithing) {
       </label>
       <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="Chamonix" list="destination-list-1">
       <datalist id="destination-list-1">
-        <option value="Amsterdam"></option>
-        <option value="Geneva"></option>
-        <option value="Chamonix"></option>
+        ${createDistinationEditTemplate()}
       </datalist>
     </div>
 
