@@ -167,7 +167,7 @@ function createFormNewPointTemplate() {
   `;
 }
 
-export default class FormNewPoint {
+export default class NewFormPointView {
   getTemplate() {
     return createFormNewPointTemplate();
   }

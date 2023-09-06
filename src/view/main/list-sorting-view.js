@@ -31,7 +31,7 @@ function createListSortingTemlate () {
   `;
 }
 
-export default class ListSorting {
+export default class ListSortingView {
   getTemplate() {
     return createListSortingTemlate();
   }

@@ -168,7 +168,7 @@ function createFormEditingPointTemplate (pointEdithing) {
   `;
 }
 
-export default class FormEditingPoint {
+export default class FormEditingPointView {
   constructor({pointEdithing}) {
     this.pointEdithing = pointEdithing;
   }

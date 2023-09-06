@@ -1,10 +1,10 @@
-import ListFilter from '../view/header/list-filter-view.js';
-import TripInfo from '../view/header/trip-info-view.js';
+import ListFilterView from '../view/header/list-filter-view.js';
+import TripInfoView from '../view/header/trip-info-view.js';
 import { render, RenderPosition } from '../render.js';
 
 export default class HeaderPresenter {
-  tripInfo = new TripInfo();
-  listFilter = new ListFilter();
+  tripInfo = new TripInfoView();
+  listFilter = new ListFilterView();
 
   constructor ({infoContainer, filterContainer}) {
     this.infoContainer = infoContainer;

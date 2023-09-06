@@ -8,10 +8,10 @@ const createOfferItemTemplate = (pointOffer, pointType) => {
   <span class="event__offer-title">${offerId.title}</span>
   &plus;&euro;&nbsp;
   <span class="event__offer-price">${offerId.price}</span>
-</li>`;
+  </li>`;
 };
 
-export default class OffersItem {
+export default class OfferView {
   constructor ({pointOfferId, pointOfferType}) {
     this.pointOfferId = pointOfferId;
     this.pointOfferType = pointOfferType;

@@ -62,7 +62,7 @@ function createPointTemplate(point) {
   `;
 }
 
-export default class Point {
+export default class PointView {
   constructor ({point}) {
     this.point = point;
   }
