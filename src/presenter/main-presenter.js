@@ -26,7 +26,6 @@ export default class MainPresenter {
     for (let i = 0; i < this.point.length; i++){
       render (new PointView({point: this.point[i]}), this.listPoint.getElement());
     }
-    console.log(this.point);
   }
 }
 

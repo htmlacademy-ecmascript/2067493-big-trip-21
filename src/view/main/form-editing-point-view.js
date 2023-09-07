@@ -4,7 +4,7 @@ import { DATE_FORMAT } from '../../moks/const.js';
 import { createTypesEditingTemplate } from './template/type-editing-template.js';
 import { createOffersEditFormTemplate } from './template/offers-edit-form-template.js';
 import { createDistinationEditTemplate } from './template/destination-edit-template.js';
-
+import { createDescriptionDestinationTemplate } from './template/description-destionation-template.js';
 function createFormEditingPointTemplate (pointEdithing) {
   const {basePrice, dateFrom, dateTo, type,} = pointEdithing;
   const date = {
@@ -63,18 +63,9 @@ function createFormEditingPointTemplate (pointEdithing) {
     </button>
   </header>
   <section class="event__details">
-    <section class="event__section  event__section--offers">
-      <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+    ${createOffersEditFormTemplate(pointEdithing)}
 
-      <div class="event__available-offers">
-        ${createOffersEditFormTemplate(pointEdithing)}
-      </div>
-    </section>
-
-    <section class="event__section  event__section--destination">
-      <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-      <p class="event__destination-description">Chamonix-Mont-Blanc (usually shortened to Chamonix) is a resort area near the junction of France, Switzerland and Italy. At the base of Mont Blanc, the highest summit in the Alps, it's renowned for its skiing.</p>
-    </section>
+    ${createDescriptionDestinationTemplate(pointEdithing)}
   </section>
 </form>
 </li>
