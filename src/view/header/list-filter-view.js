@@ -28,7 +28,7 @@ function createListFilterTemplate () {
   `;
 }
 
-export default class ListFilter {
+export default class ListFilterView {
   getTemplate() {
     return createListFilterTemplate();
   }
