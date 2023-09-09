@@ -1,4 +1,4 @@
-import { createElement } from '../../render.js';
+import AbstractView from '../../framework/view/abstract-view.js';
 
 function createListSortingTemlate () {
   return `
@@ -31,20 +31,8 @@ function createListSortingTemlate () {
   `;
 }
 
-export default class ListSortingView {
-  getTemplate() {
+export default class ListSortingView extends AbstractView{
+  get template() {
     return createListSortingTemlate();
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
   }
 }

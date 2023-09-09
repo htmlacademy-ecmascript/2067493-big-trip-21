@@ -1,6 +1,6 @@
 import ListFilterView from '../view/header/list-filter-view.js';
 import TripInfoView from '../view/header/trip-info-view.js';
-import { render, RenderPosition } from '../render.js';
+import { render, RenderPosition } from '../framework/render.js';
 
 export default class HeaderPresenter {
   tripInfo = new TripInfoView();
