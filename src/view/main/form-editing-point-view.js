@@ -7,8 +7,8 @@ import { createDescriptionDestinationTemplate } from './template/description-des
 import { destinations } from '../../moks/destination.js';
 import AbstractView from '../../framework/view/abstract-view.js';
 
-function createFormEditingPointTemplate (point) {
-  const {basePrice, dateFrom, dateTo, type, destination} = point;
+function createFormEditingPointTemplate(point) {
+  const { basePrice, dateFrom, dateTo, type, destination } = point;
   const date = {
     from: reformatDate(DATE_FORMAT.dateFormEditing, dateFrom),
     to: reformatDate(DATE_FORMAT.dateFormEditing, dateTo),
@@ -77,11 +77,31 @@ function createFormEditingPointTemplate (point) {
 
 export default class FormEditingPointView extends AbstractView {
   #point = [];
+  #handleSubmitFormEditing = null;
+  #handleClickFormEditing = null;
 
-  constructor({point}) {
+  constructor({ point, onFormSubmit, onClickForm }) {
     super();
     this.#point = point;
+    this.#handleSubmitFormEditing = onFormSubmit;
+    this.#handleClickFormEditing = onClickForm;
+
+    this.element.querySelector('form')
+      .addEventListener('submit', this.#submitFormEditingHandler);
+
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#clickFormEditingHandler);
   }
+
+  #submitFormEditingHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleSubmitFormEditing();
+  };
+
+  #clickFormEditingHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleClickFormEditing();
+  };
 
   get template() {
     return createFormEditingPointTemplate(this.#point);
