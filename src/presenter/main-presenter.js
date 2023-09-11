@@ -18,17 +18,23 @@ export default class MainPresenter {
     this.#pointsModel = pointsModel;
   }
 
+  #renderPoint (point) {
+    const pointComponent = new PointView({point});
+
+    render (pointComponent, this.#listPoint.element);
+  }
+
   init() {
     this.#point = [...this.#pointsModel.points];
 
     render (this.#listSotring, this.#container);
     render (this.#listPoint, this.#container);
-    render (this.#newFormPoint, this.#listPoint.element);
-    render (new FormEditingPointView({point: this.#point[0]}), this.#listPoint.element);
 
     for (let i = 1; i < this.#point.length; i++){
-      render (new PointView({point: this.#point[i]}), this.#listPoint.element);
+      this.#renderPoint(this.#point[i]);
     }
   }
+
+
 }
 
