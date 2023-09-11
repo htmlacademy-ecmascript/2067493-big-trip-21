@@ -76,12 +76,14 @@ function createFormEditingPointTemplate (point) {
 }
 
 export default class FormEditingPointView extends AbstractView {
+  #point = [];
+
   constructor({point}) {
     super();
-    this.point = point;
+    this.#point = point;
   }
 
   get template() {
-    return createFormEditingPointTemplate(this.point);
+    return createFormEditingPointTemplate(this.#point);
   }
 }
