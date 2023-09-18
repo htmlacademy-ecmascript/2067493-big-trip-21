@@ -1,4 +1,4 @@
-import { createElement } from '../../render.js';
+import AbstractView from '../../framework/view/abstract-view.js';
 
 function createFormNewPointTemplate() {
   return `
@@ -167,20 +167,8 @@ function createFormNewPointTemplate() {
   `;
 }
 
-export default class NewFormPointView {
-  getTemplate() {
+export default class NewFormPointView extends AbstractView{
+  get template() {
     return createFormNewPointTemplate();
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
   }
 }

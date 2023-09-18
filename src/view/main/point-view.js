@@ -1,8 +1,8 @@
-import { createElement } from '../../render.js';
 import { reformatDate } from '../../moks/utils.js';
 import { DATE_FORMAT } from '../../moks/const.js';
 import { destinations } from '../../moks/destination.js';
 import { createOffersListPointTemplate } from './template/offers-list-point-template.js';
+import AbstractView from '../../framework/view/abstract-view.js';
 
 function createPointTemplate(point) {
   const { basePrice, dateFrom, dateTo, isFavorite, destination, type } = point;
@@ -64,25 +64,25 @@ function createPointTemplate(point) {
   `;
 }
 
-export default class PointView {
-  constructor ({point}) {
-    this.point = point;
+export default class PointView extends AbstractView {
+  #point = [];
+  #handleClick = null;
+
+  constructor ({point, onEditingClick}) {
+    super();
+    this.#point = point;
+
+    this.#handleClick = onEditingClick;
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#editingClickHandler);
   }
 
+  #editingClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleClick();
+  };
 
-  getTemplate() {
-    return createPointTemplate(this.point);
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
+  get template() {
+    return createPointTemplate(this.#point);
   }
 }

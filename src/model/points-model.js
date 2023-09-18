@@ -1,15 +1,11 @@
 import { createRoutePoint } from '../moks/route-point.js';
 
-const POINT_COUNT = 6;
+const POINT_COUNT = 12;
 
 export default class PointsModel {
-  points = Array.from({length: POINT_COUNT}, createRoutePoint);
-  pointsEditing = createRoutePoint();
-  getPoints () {
-    return this.points;
-  }
+  #points = Array.from({length: POINT_COUNT}, createRoutePoint);
 
-  getPointEdithing () {
-    return this.pointsEditing;
+  get points () {
+    return this.#points;
   }
 }

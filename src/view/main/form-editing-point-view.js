@@ -1,16 +1,19 @@
-import { createElement } from '../../render.js';
 import { reformatDate } from '../../moks/utils.js';
 import { DATE_FORMAT } from '../../moks/const.js';
 import { createTypesEditingTemplate } from './template/type-editing-template.js';
 import { createOffersEditFormTemplate } from './template/offers-edit-form-template.js';
 import { createDistinationEditTemplate } from './template/destination-edit-template.js';
 import { createDescriptionDestinationTemplate } from './template/description-destionation-template.js';
-function createFormEditingPointTemplate (pointEdithing) {
-  const {basePrice, dateFrom, dateTo, type,} = pointEdithing;
+import { destinations } from '../../moks/destination.js';
+import AbstractView from '../../framework/view/abstract-view.js';
+
+function createFormEditingPointTemplate(point) {
+  const { basePrice, dateFrom, dateTo, type, destination } = point;
   const date = {
     from: reformatDate(DATE_FORMAT.dateFormEditing, dateFrom),
     to: reformatDate(DATE_FORMAT.dateFormEditing, dateTo),
   };
+  const destinationId = destinations.find((item) => item.id === destination);
   return `
   <li class="trip-events__item">
   <form class="event event--edit" action="#" method="post">
@@ -34,7 +37,7 @@ function createFormEditingPointTemplate (pointEdithing) {
       <label class="event__label  event__type-output" for="event-destination-1">
         ${type}
       </label>
-      <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="Chamonix" list="destination-list-1">
+      <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destinationId.city}" list="destination-list-1">
       <datalist id="destination-list-1">
         ${createDistinationEditTemplate()}
       </datalist>
@@ -63,33 +66,44 @@ function createFormEditingPointTemplate (pointEdithing) {
     </button>
   </header>
   <section class="event__details">
-    ${createOffersEditFormTemplate(pointEdithing)}
+    ${createOffersEditFormTemplate(point)}
 
-    ${createDescriptionDestinationTemplate(pointEdithing)}
+    ${createDescriptionDestinationTemplate(point)}
   </section>
 </form>
 </li>
   `;
 }
 
-export default class FormEditingPointView {
-  constructor({pointEdithing}) {
-    this.pointEdithing = pointEdithing;
+export default class FormEditingPointView extends AbstractView {
+  #point = [];
+  #handleSubmitFormEditing = null;
+  #handleClickFormEditing = null;
+
+  constructor({ point, onFormSubmit, onClickForm }) {
+    super();
+    this.#point = point;
+    this.#handleSubmitFormEditing = onFormSubmit;
+    this.#handleClickFormEditing = onClickForm;
+
+    this.element.querySelector('form')
+      .addEventListener('submit', this.#submitFormEditingHandler);
+
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#clickFormEditingHandler);
   }
 
-  getTemplate() {
-    return createFormEditingPointTemplate(this.pointEdithing);
-  }
+  #submitFormEditingHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleSubmitFormEditing();
+  };
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
+  #clickFormEditingHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleClickFormEditing();
+  };
 
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
+  get template() {
+    return createFormEditingPointTemplate(this.#point);
   }
 }
