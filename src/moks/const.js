@@ -39,4 +39,14 @@ const DATE_FORMAT = {
   timeValue: 'HH:mm',
   dateFormEditing: 'DD/MM/YY HH:MM'
 };
-export {CITIES, TYPES, DESCRIPTION, DATE_FORMAT};
+
+const TODAY = new Date ();
+const FILTER_VALUE = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PRESENT: 'present',
+  PAST: 'past'
+};
+
+export {CITIES, TYPES, DESCRIPTION, DATE_FORMAT, FILTER_VALUE, TODAY};
+

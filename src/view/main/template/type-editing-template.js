@@ -5,7 +5,7 @@ function createTypesEditingTemplate() {
     `
   <div class="event__type-item">
     <input id="event-type-${item}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${item}">
-    <label class="event__type-label  event__type-label--${item}" for="event-type-${item}-1">${item}</label>
+    <label class="event__type-label  event__type-label--${item.toLowerCase()}" for="event-type-${item}-1">${item}</label>
   </div>
   `
   ).join(' ');
