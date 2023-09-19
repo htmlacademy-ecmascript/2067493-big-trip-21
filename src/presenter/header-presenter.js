@@ -4,17 +4,17 @@ import { render, RenderPosition } from '../framework/render.js';
 
 export default class HeaderPresenter {
   #tripInfo = new TripInfoView();
-  #listFilter = new ListFilterView();
-
+  #filters = null;
   #infoContainer = null;
   #filterContainer = null;
-  constructor ({infoContainer, filterContainer}) {
+  constructor ({infoContainer, filterContainer, filters}) {
     this.#infoContainer = infoContainer;
     this.#filterContainer = filterContainer;
+    this.#filters = filters;
   }
 
   init() {
     render (this.#tripInfo, this.#infoContainer, RenderPosition.AFTERBEGIN);
-    render (this.#listFilter, this.#filterContainer);
+    render (new ListFilterView({filters: this.#filters}), this.#filterContainer);
   }
 }

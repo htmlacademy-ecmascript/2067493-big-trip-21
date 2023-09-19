@@ -3,6 +3,7 @@ import ListPointView from '../view/main/list-point-view.js';
 import NewFormPointView from '../view/main/new-form-point-view.js';
 import FormEditingPointView from '../view/main/form-editing-point-view.js';
 import PointView from '../view/main/point-view.js';
+import LisrEmptyView from '../view/main/list-empty-view.js';
 import { render, replace } from '../framework/render.js';
 export default class MainPresenter {
   #container = null;
@@ -11,7 +12,7 @@ export default class MainPresenter {
   #listSotring = new ListSortingView;
   #listPoint = new ListPointView;
   #newFormPoint = new NewFormPointView;
-
+  #listEmpty = new LisrEmptyView;
   #point = [];
   constructor({ container, pointsModel }) {
     this.#container = container;
@@ -61,14 +62,15 @@ export default class MainPresenter {
   init() {
     this.#point = [...this.#pointsModel.points];
 
-    render(this.#listSotring, this.#container);
-    render(this.#listPoint, this.#container);
-
-    for (let i = 1; i < this.#point.length; i++) {
-      this.#renderPoint(this.#point[i]);
+    if (this.#point.length > 0) {
+      render(this.#listSotring, this.#container);
+      render(this.#listPoint, this.#container);
+      for (let i = 1; i < this.#point.length; i++) {
+        this.#renderPoint(this.#point[i]);
+      }
+    } else {
+      render(this.#listEmpty, this.#container);
     }
   }
-
-
 }
 
