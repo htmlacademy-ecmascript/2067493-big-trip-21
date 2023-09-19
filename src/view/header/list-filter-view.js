@@ -1,5 +1,12 @@
 import AbstractView from '../../framework/view/abstract-view.js';
 
+function disabled(value, count) {
+  if(value === 'everything') {
+    return '';
+  }
+  return count === 0 ? 'disabled' : '';
+}
+
 function createItemFilterTemplate (filter, isChecked) {
   const {value, count} = filter;
 
@@ -12,7 +19,7 @@ function createItemFilterTemplate (filter, isChecked) {
     name="trip-filter"+
     value="${value}"
     ${isChecked ? 'checked' : ''}
-    ${count === 0 ? 'disabled' : ''}>
+    ${disabled(value, count)}>
 
     <label
     class="trip-filters__filter-label"
