@@ -1,5 +1,5 @@
-import { reformatDate } from '../../moks/utils.js';
-import { DATE_FORMAT } from '../../moks/const.js';
+import { reformatDate } from '../../utils.js';
+import { DATE_FORMAT } from '../../const.js';
 import { destinations } from '../../moks/destination.js';
 import { createOffersListPointTemplate } from './template/offers-list-point-template.js';
 import AbstractView from '../../framework/view/abstract-view.js';

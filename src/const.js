@@ -40,13 +40,14 @@ const DATE_FORMAT = {
   dateFormEditing: 'DD/MM/YY HH:MM'
 };
 
-const TODAY = new Date ();
-const FILTER_VALUE = {
+const FilterValue = {
   EVERYTHING: 'everything',
   FUTURE: 'future',
   PRESENT: 'present',
   PAST: 'past'
 };
 
-export {CITIES, TYPES, DESCRIPTION, DATE_FORMAT, FILTER_VALUE, TODAY};
+let today = new Date ();
+
+export {CITIES, TYPES, DESCRIPTION, DATE_FORMAT, FilterValue, today};
 

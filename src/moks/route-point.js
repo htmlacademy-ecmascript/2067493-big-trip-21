@@ -1,5 +1,5 @@
-import { getRandomArrayElement, getRandomInteger, getRandomId } from './utils.js';
-import { TYPES } from './const.js';
+import { getRandomArrayElement, getRandomInteger, getRandomId } from '../utils.js';
+import { TYPES } from '../const.js';
 import { offers } from './offers.js';
 import { destinations } from './destination.js';
 

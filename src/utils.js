@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { FILTER_VALUE, TODAY } from './const.js';
+import { FilterValue, today } from './const.js';
 
 // Функция которая дает рандомное число из задаваемого отрезка
 const getRandomInteger = (a, b) => {
@@ -18,10 +18,10 @@ const getRandomId = (length = 5) => Math.random().toString(36).substring(2, leng
 const reformatDate = (format, date) => dayjs(date).format(format);
 //
 const filter = {
-  [FILTER_VALUE.EVERYTHING]: (points) => points,
-  [FILTER_VALUE.FUTURE]: (points) => points.filter((itemPoints) => itemPoints.dateFrom > TODAY),
-  [FILTER_VALUE.PRESENT]: (points) => points.filter((itemPoints) => itemPoints.dateFrom <= TODAY && itemPoints.dateTo >= TODAY),
-  [FILTER_VALUE.PAST]: (points) => points.filter((itemPoints) => itemPoints.dateTo < TODAY)
+  [FilterValue.EVERYTHING]: (points) => points,
+  [FilterValue.FUTURE]: (points) => points.filter((itemPoints) => itemPoints.dateFrom > today),
+  [FilterValue.PRESENT]: (points) => points.filter((itemPoints) => itemPoints.dateFrom <= today && itemPoints.dateTo >= today),
+  [FilterValue.PAST]: (points) => points.filter((itemPoints) => itemPoints.dateTo < today)
 };
 export {getRandomInteger, getRandomArrayElement, getRandomId, reformatDate, filter};
 

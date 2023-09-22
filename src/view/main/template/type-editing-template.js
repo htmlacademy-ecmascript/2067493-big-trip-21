@@ -1,4 +1,4 @@
-import { TYPES } from '../../../moks/const.js';
+import { TYPES } from '../../../const.js';
 
 function createTypesEditingTemplate() {
   return TYPES.map((item) =>

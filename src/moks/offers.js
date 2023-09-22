@@ -1,5 +1,5 @@
-import { getRandomInteger, getRandomId } from './utils.js';
-import { TYPES } from './const.js';
+import { getRandomInteger, getRandomId } from '../utils.js';
+import { TYPES } from '../const.js';
 
 const offers = [];
 

@@ -9,14 +9,44 @@ export default class MainPresenter {
   #container = null;
   #pointsModel = null;
 
-  #listSotring = new ListSortingView;
-  #listPoint = new ListPointView;
-  #newFormPoint = new NewFormPointView;
-  #listEmpty = new LisrEmptyView;
-  #point = [];
+  #listSorting = new ListSortingView();
+  #listPoint = new ListPointView();
+  #newFormPoint = new NewFormPointView();
+  #listEmpty = new LisrEmptyView();
+
+  #points = [];
   constructor({ container, pointsModel }) {
     this.#container = container;
     this.#pointsModel = pointsModel;
+  }
+
+  init() {
+    this.#points = [...this.#pointsModel.points];
+
+    this.#renderListPoint();
+  }
+
+  #renderEmpty () {
+    render(this.#listEmpty, this.#container);
+  }
+
+  #renderListSorting () {
+    render(this.#listSorting, this.#container);
+  }
+
+  #renderListContainer () {
+    render(this.#listPoint, this.#container);
+  }
+
+  #renderListPoint () {
+    if(this.#points.length === 0) {
+      this.#renderEmpty();
+      return;
+    }
+
+    this.#renderListSorting();
+    this.#renderListContainer();
+    this.#points.forEach((point) => this.#renderPoint(point));
   }
 
   #renderPoint(point) {
@@ -59,18 +89,4 @@ export default class MainPresenter {
     render(pointComponent, this.#listPoint.element);
   }
 
-  init() {
-    this.#point = [...this.#pointsModel.points];
-
-    if (this.#point.length > 0) {
-      render(this.#listSotring, this.#container);
-      render(this.#listPoint, this.#container);
-      for (let i = 1; i < this.#point.length; i++) {
-        this.#renderPoint(this.#point[i]);
-      }
-    } else {
-      render(this.#listEmpty, this.#container);
-    }
-  }
 }
-
