@@ -1,17 +1,14 @@
 import ListSortingView from '../view/main/list-sorting-view.js';
 import ListPointView from '../view/main/list-point-view.js';
-import NewFormPointView from '../view/main/new-form-point-view.js';
-import FormEditingPointView from '../view/main/form-editing-point-view.js';
-import PointView from '../view/main/point-view.js';
 import LisrEmptyView from '../view/main/list-empty-view.js';
-import { render, replace } from '../framework/render.js';
+import { render } from '../framework/render.js';
+import PointPresenter from './point-presenter.js';
 export default class MainPresenter {
   #container = null;
   #pointsModel = null;
 
   #listSorting = new ListSortingView();
   #listPoint = new ListPointView();
-  #newFormPoint = new NewFormPointView();
   #listEmpty = new LisrEmptyView();
 
   #points = [];
@@ -26,18 +23,22 @@ export default class MainPresenter {
     this.#renderListPoint();
   }
 
+  // Метод создает пустой лист(точки маршрута отсутвуют)
   #renderEmpty () {
     render(this.#listEmpty, this.#container);
   }
 
+  //Метод создает меню сортировки точек маршрута
   #renderListSorting () {
     render(this.#listSorting, this.#container);
   }
 
+  //Метод создает контейнер в котором будут хранится точки маршрута
   #renderListContainer () {
     render(this.#listPoint, this.#container);
   }
 
+  //Метод создает список точек маршрута
   #renderListPoint () {
     if(this.#points.length === 0) {
       this.#renderEmpty();
@@ -49,44 +50,11 @@ export default class MainPresenter {
     this.#points.forEach((point) => this.#renderPoint(point));
   }
 
+  // Метод создает точку маршрута
   #renderPoint(point) {
-    const escKeyDownHandler = (evt) => {
-      if (evt.key === 'Escape') {
-        evt.preventDefault();
-        replaceFormEditingToPoint();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
-    };
-
-    const pointComponent = new PointView({
-      point,
-      onEditingClick: () => {
-        replacePointToFormEditing();
-        document.addEventListener('keydown', escKeyDownHandler);
-      }
+    const pointPresenter = new PointPresenter ({
+      listPoint: this.#listPoint
     });
-
-    const pointFormEditingComponent = new FormEditingPointView({
-      point,
-      onFormSubmit: () => {
-        replaceFormEditingToPoint();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      },
-      onClickForm: () => {
-        replaceFormEditingToPoint();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
-    });
-
-    function replacePointToFormEditing() {
-      replace(pointFormEditingComponent, pointComponent);
-    }
-
-    function replaceFormEditingToPoint() {
-      replace(pointComponent, pointFormEditingComponent);
-    }
-
-    render(pointComponent, this.#listPoint.element);
+    pointPresenter.init(point);
   }
-
 }
