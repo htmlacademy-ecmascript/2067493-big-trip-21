@@ -12,6 +12,8 @@ export default class MainPresenter {
   #listEmpty = new LisrEmptyView();
 
   #points = [];
+  #pointPresenter = new Map();
+
   constructor({ container, pointsModel }) {
     this.#container = container;
     this.#pointsModel = pointsModel;
@@ -21,6 +23,11 @@ export default class MainPresenter {
     this.#points = [...this.#pointsModel.points];
 
     this.#renderListPoint();
+  }
+
+  #clearListPoint () {
+    this.#pointPresenter.forEach((presenter) => presenter.destroy());
+    this.#pointPresenter.clear();
   }
 
   // Метод создает пустой лист(точки маршрута отсутвуют)
@@ -56,5 +63,6 @@ export default class MainPresenter {
       listPoint: this.#listPoint
     });
     pointPresenter.init(point);
+    this.#pointPresenter.set(point.id, pointPresenter);
   }
 }

@@ -12,8 +12,6 @@ const getRandomInteger = (a, b) => {
 // функция для поиска случайного элемента в массиве
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-//Создание рандомного ID
-const getRandomId = (length = 5) => Math.random().toString(36).substring(2, length + 2);
 //Переформатировать в нужный формат
 const reformatDate = (format, date) => dayjs(date).format(format);
 //
@@ -23,5 +21,5 @@ const filter = {
   [FilterValue.PRESENT]: (points) => points.filter((itemPoints) => itemPoints.dateFrom <= today && itemPoints.dateTo >= today),
   [FilterValue.PAST]: (points) => points.filter((itemPoints) => itemPoints.dateTo < today)
 };
-export {getRandomInteger, getRandomArrayElement, getRandomId, reformatDate, filter};
+export {getRandomInteger, getRandomArrayElement, reformatDate, filter};
 

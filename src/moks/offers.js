@@ -1,10 +1,11 @@
-import { getRandomInteger, getRandomId } from '../utils.js';
+import { getRandomInteger} from '../utils.js';
+import { nanoid } from 'nanoid';
 import { TYPES } from '../const.js';
 
 const offers = [];
 
 const generateOffer = (type) => ({
-  id: getRandomId(4),
+  id: nanoid(),
   title: `Опции ${type}`,
   price: getRandomInteger(50, 500)
 });

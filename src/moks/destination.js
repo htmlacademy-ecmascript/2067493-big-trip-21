@@ -1,4 +1,5 @@
-import { getRandomArrayElement, getRandomInteger, getRandomId } from '../utils.js';
+import { getRandomArrayElement, getRandomInteger} from '../utils.js';
+import { nanoid } from 'nanoid';
 import { CITIES, DESCRIPTION } from '../const.js';
 
 const destinations = [];
@@ -9,7 +10,7 @@ const createPicture = (description) => ({
 });
 
 const createDestination = (city) => ({
-  id: getRandomId(),
+  id: nanoid(),
   city,
   description: getRandomArrayElement(DESCRIPTION),
   picture: Array.from({length: getRandomInteger(0, 3)}, () => createPicture(getRandomArrayElement(DESCRIPTION)))
