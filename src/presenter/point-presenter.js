@@ -8,10 +8,12 @@ export default class PointPresenter {
   #pointComponent = null;
   #pointEditingComponent = null;
 
+  #handleDataChange = null;
   #point = [];
 
-  constructor({listPoint}) {
+  constructor({listPoint, onDataChange}) {
     this.#listPoint = listPoint;
+    this.#handleDataChange = onDataChange;
   }
 
   init (point) {
@@ -23,6 +25,7 @@ export default class PointPresenter {
     this.#pointComponent = new PointView ({
       point: this.#point,
       onEditingClick: this.#handleEdithingClick,
+      onFavoriteClick: this.#handleFavoriteClick,
     });
 
     this.#pointEditingComponent = new FormEditingPointView({
@@ -36,11 +39,11 @@ export default class PointPresenter {
       return;
     }
 
-    if (this.#listPoint.contains(prevPointComponent.element)){
+    if (this.#listPoint.element.contains(prevPointComponent.element)){
       replace(this.#pointComponent, prevPointComponent);
     }
 
-    if(this.#listPoint.contains(prevPointEditingComponent)){
+    if(this.#listPoint.element.contains(prevPointEditingComponent.element)){
       replace(this.#pointEditingComponent, prevPointComponent);
     }
 
@@ -48,29 +51,40 @@ export default class PointPresenter {
     remove(prevPointEditingComponent);
   }
 
+  //Метод удаляет элемент
   destroy() {
     remove(this.#pointComponent);
     remove(this.#pointEditingComponent);
   }
 
+  //Метод заменяет точку маршрута на форму редактирования
   #replacePointToFormEditing() {
     replace(this.#pointEditingComponent, this.#pointComponent);
     document.addEventListener('keydown', this.#handleEscKeyDown);
   }
 
+  //Метод заменяет форму редактирования на точку
   #replaceFormEditingToPoint() {
     replace(this.#pointComponent, this.#pointEditingComponent);
     document.removeEventListener('keydown', this.#handleEscKeyDown);
   }
 
+  //Функция событие которая изменят значения Favorite
+  #handleFavoriteClick = () => {
+    this.#handleDataChange({...this.#point, isFavorite: !this.#point.isFavorite});
+  };
+
+  //Функция события замены точки маршрута на форму редактирования
   #handleEdithingClick = () => {
     this.#replacePointToFormEditing();
   };
 
+  //Функция события замены формы редактирования на точку маршрута
   #handleFormSubmitAndClick = () => {
     this.#replaceFormEditingToPoint();
   };
 
+  //Функция события нажатия кнопки ESC в форме рдактирования (меняет форму редактирования на точку маршрута)
   #handleEscKeyDown = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();

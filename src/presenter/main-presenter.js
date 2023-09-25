@@ -57,10 +57,17 @@ export default class MainPresenter {
     this.#points.forEach((point) => this.#renderPoint(point));
   }
 
+  #handleDataChange = (newItem) => {
+    this.#points = this.#points.map((itemPoint) => itemPoint.id === newItem.id ? newItem : itemPoint);
+    this.#pointPresenter.get(newItem.id).init(newItem);
+
+  };
+
   // Метод создает точку маршрута
   #renderPoint(point) {
     const pointPresenter = new PointPresenter ({
-      listPoint: this.#listPoint
+      listPoint: this.#listPoint,
+      onDataChange: this.#handleDataChange
     });
     pointPresenter.init(point);
     this.#pointPresenter.set(point.id, pointPresenter);
