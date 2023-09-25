@@ -1,6 +1,6 @@
 import FormEditingPointView from '../view/main/form-editing-point-view.js';
 import PointView from '../view/main/point-view.js';
-import { render, replace } from '../framework/render.js';
+import { render, replace, remove } from '../framework/render.js';
 
 export default class PointPresenter {
   #listPoint = null;
@@ -17,6 +17,9 @@ export default class PointPresenter {
   init (point) {
     this.#point = point;
 
+    const prevPointComponent = this.#pointComponent;
+    const prevPointEditingComponent = this.#pointEditingComponent;
+
     this.#pointComponent = new PointView ({
       point: this.#point,
       onEditingClick: this.#handleEdithingClick,
@@ -28,7 +31,26 @@ export default class PointPresenter {
       onClickForm: this.#handleFormSubmitAndClick,
     });
 
-    render(this.#pointComponent, this.#listPoint.element);
+    if(prevPointComponent === null || prevPointEditingComponent === null){
+      render(this.#pointComponent, this.#listPoint.element);
+      return;
+    }
+
+    if (this.#listPoint.contains(prevPointComponent.element)){
+      replace(this.#pointComponent, prevPointComponent);
+    }
+
+    if(this.#listPoint.contains(prevPointEditingComponent)){
+      replace(this.#pointEditingComponent, prevPointComponent);
+    }
+
+    remove(prevPointComponent);
+    remove(prevPointEditingComponent);
+  }
+
+  destroy() {
+    remove(this.#pointComponent);
+    remove(this.#pointEditingComponent);
   }
 
   #replacePointToFormEditing() {
