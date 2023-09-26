@@ -3,6 +3,7 @@ import ListPointView from '../view/main/list-point-view.js';
 import LisrEmptyView from '../view/main/list-empty-view.js';
 import { render } from '../framework/render.js';
 import PointPresenter from './point-presenter.js';
+
 export default class MainPresenter {
   #container = null;
   #pointsModel = null;
@@ -29,6 +30,10 @@ export default class MainPresenter {
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
     this.#pointPresenter.clear();
   }
+
+  #handleModeChange = () => {
+    this.#pointPresenter.forEach((itemPresenter) => itemPresenter.resetView());
+  };
 
   // Метод создает пустой лист(точки маршрута отсутвуют)
   #renderEmpty () {
@@ -67,7 +72,8 @@ export default class MainPresenter {
   #renderPoint(point) {
     const pointPresenter = new PointPresenter ({
       listPoint: this.#listPoint,
-      onDataChange: this.#handleDataChange
+      onDataChange: this.#handleDataChange,
+      onModeChange: this.#handleModeChange
     });
     pointPresenter.init(point);
     this.#pointPresenter.set(point.id, pointPresenter);

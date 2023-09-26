@@ -2,18 +2,26 @@ import FormEditingPointView from '../view/main/form-editing-point-view.js';
 import PointView from '../view/main/point-view.js';
 import { render, replace, remove } from '../framework/render.js';
 
+const Mode = {
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING',
+};
 export default class PointPresenter {
   #listPoint = null;
 
+  #handleModeChange = null;
   #pointComponent = null;
   #pointEditingComponent = null;
 
   #handleDataChange = null;
-  #point = [];
 
-  constructor({listPoint, onDataChange}) {
+  #point = [];
+  #mode = Mode.DEFAULT;
+
+  constructor({listPoint, onDataChange, onModeChange }) {
     this.#listPoint = listPoint;
     this.#handleDataChange = onDataChange;
+    this.#handleModeChange = onModeChange;
   }
 
   init (point) {
@@ -39,11 +47,11 @@ export default class PointPresenter {
       return;
     }
 
-    if (this.#listPoint.element.contains(prevPointComponent.element)){
+    if (this.#mode === Mode.DEFAULT){
       replace(this.#pointComponent, prevPointComponent);
     }
 
-    if(this.#listPoint.element.contains(prevPointEditingComponent.element)){
+    if(this.#mode === Mode.EDITING){
       replace(this.#pointEditingComponent, prevPointComponent);
     }
 
@@ -61,12 +69,15 @@ export default class PointPresenter {
   #replacePointToFormEditing() {
     replace(this.#pointEditingComponent, this.#pointComponent);
     document.addEventListener('keydown', this.#handleEscKeyDown);
+    this.#handleModeChange();
+    this.#mode = Mode.EDITING;
   }
 
   //Метод заменяет форму редактирования на точку
   #replaceFormEditingToPoint() {
     replace(this.#pointComponent, this.#pointEditingComponent);
     document.removeEventListener('keydown', this.#handleEscKeyDown);
+    this.#mode = Mode.DEFAULT;
   }
 
   //Функция событие которая изменят значения Favorite
@@ -91,4 +102,10 @@ export default class PointPresenter {
       this.#replaceFormEditingToPoint();
     }
   };
+
+  resetView() {
+    if(this.#mode !== Mode.DEFAULT){
+      this.#replaceFormEditingToPoint();
+    }
+  }
 }
