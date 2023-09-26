@@ -1,5 +1,6 @@
-import { getRandomArrayElement, getRandomInteger, getRandomId } from './utils.js';
-import { TYPES } from './const.js';
+import { getRandomArrayElement, getRandomInteger} from '../utils.js';
+import { nanoid } from 'nanoid';
+import { TYPES } from '../const.js';
 import { offers } from './offers.js';
 import { destinations } from './destination.js';
 
@@ -13,7 +14,7 @@ const createRoutePoint = () => {
   const month = getRandomInteger(1, 12);
   const day = getRandomInteger(1, 31);
   return {
-    id: getRandomId(6),
+    id: nanoid(),
     basePrice: getRandomInteger(50, 500),
     dateFrom: new Date(new Date(`2023-${month}-${day}`).getTime() + getRandomInteger(1000, 5000) * getRandomInteger(60, 3600)),
     dateTo: new Date(new Date(`2023-${month}-${day}`).getTime() + getRandomInteger(5000, 10000) * getRandomInteger(60, 3600)),

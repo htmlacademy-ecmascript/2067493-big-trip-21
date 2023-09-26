@@ -1,5 +1,5 @@
-import { reformatDate } from '../../moks/utils.js';
-import { DATE_FORMAT } from '../../moks/const.js';
+import { reformatDate } from '../../utils.js';
+import { DATE_FORMAT } from '../../const.js';
 import { createTypesEditingTemplate } from './template/type-editing-template.js';
 import { createOffersEditFormTemplate } from './template/offers-edit-form-template.js';
 import { createDistinationEditTemplate } from './template/destination-edit-template.js';

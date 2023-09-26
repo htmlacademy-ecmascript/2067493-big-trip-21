@@ -1,76 +1,81 @@
 import ListSortingView from '../view/main/list-sorting-view.js';
 import ListPointView from '../view/main/list-point-view.js';
-import NewFormPointView from '../view/main/new-form-point-view.js';
-import FormEditingPointView from '../view/main/form-editing-point-view.js';
-import PointView from '../view/main/point-view.js';
 import LisrEmptyView from '../view/main/list-empty-view.js';
-import { render, replace } from '../framework/render.js';
+import { render } from '../framework/render.js';
+import PointPresenter from './point-presenter.js';
+
 export default class MainPresenter {
   #container = null;
   #pointsModel = null;
 
-  #listSotring = new ListSortingView;
-  #listPoint = new ListPointView;
-  #newFormPoint = new NewFormPointView;
-  #listEmpty = new LisrEmptyView;
-  #point = [];
+  #listSorting = new ListSortingView();
+  #listPoint = new ListPointView();
+  #listEmpty = new LisrEmptyView();
+
+  #points = [];
+  #pointPresenter = new Map();
+
   constructor({ container, pointsModel }) {
     this.#container = container;
     this.#pointsModel = pointsModel;
   }
 
-  #renderPoint(point) {
-    const escKeyDownHandler = (evt) => {
-      if (evt.key === 'Escape') {
-        evt.preventDefault();
-        replaceFormEditingToPoint();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
-    };
+  init() {
+    this.#points = [...this.#pointsModel.points];
 
-    const pointComponent = new PointView({
-      point,
-      onEditingClick: () => {
-        replacePointToFormEditing();
-        document.addEventListener('keydown', escKeyDownHandler);
-      }
-    });
-
-    const pointFormEditingComponent = new FormEditingPointView({
-      point,
-      onFormSubmit: () => {
-        replaceFormEditingToPoint();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      },
-      onClickForm: () => {
-        replaceFormEditingToPoint();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
-    });
-
-    function replacePointToFormEditing() {
-      replace(pointFormEditingComponent, pointComponent);
-    }
-
-    function replaceFormEditingToPoint() {
-      replace(pointComponent, pointFormEditingComponent);
-    }
-
-    render(pointComponent, this.#listPoint.element);
+    this.#renderListPoint();
   }
 
-  init() {
-    this.#point = [...this.#pointsModel.points];
+  #clearListPoint () {
+    this.#pointPresenter.forEach((presenter) => presenter.destroy());
+    this.#pointPresenter.clear();
+  }
 
-    if (this.#point.length > 0) {
-      render(this.#listSotring, this.#container);
-      render(this.#listPoint, this.#container);
-      for (let i = 1; i < this.#point.length; i++) {
-        this.#renderPoint(this.#point[i]);
-      }
-    } else {
-      render(this.#listEmpty, this.#container);
+  #handleModeChange = () => {
+    this.#pointPresenter.forEach((itemPresenter) => itemPresenter.resetView());
+  };
+
+  // Метод создает пустой лист(точки маршрута отсутвуют)
+  #renderEmpty () {
+    render(this.#listEmpty, this.#container);
+  }
+
+  //Метод создает меню сортировки точек маршрута
+  #renderListSorting () {
+    render(this.#listSorting, this.#container);
+  }
+
+  //Метод создает контейнер в котором будут хранится точки маршрута
+  #renderListContainer () {
+    render(this.#listPoint, this.#container);
+  }
+
+  //Метод создает список точек маршрута
+  #renderListPoint () {
+    if(this.#points.length === 0) {
+      this.#renderEmpty();
+      return;
     }
+
+    this.#renderListSorting();
+    this.#renderListContainer();
+    this.#points.forEach((point) => this.#renderPoint(point));
+  }
+
+  #handleDataChange = (newItem) => {
+    this.#points = this.#points.map((itemPoint) => itemPoint.id === newItem.id ? newItem : itemPoint);
+    this.#pointPresenter.get(newItem.id).init(newItem);
+
+  };
+
+  // Метод создает точку маршрута
+  #renderPoint(point) {
+    const pointPresenter = new PointPresenter ({
+      listPoint: this.#listPoint,
+      onDataChange: this.#handleDataChange,
+      onModeChange: this.#handleModeChange
+    });
+    pointPresenter.init(point);
+    this.#pointPresenter.set(point.id, pointPresenter);
   }
 }
-
