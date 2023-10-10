@@ -1,4 +1,4 @@
-import { reformatDate } from '../../utils.js';
+import { reformatDate, getDifferenseDate } from '../../utils.js';
 import { DATE_FORMAT } from '../../const.js';
 import { destinations } from '../../moks/destination.js';
 import { createOffersListPointTemplate } from './template/offers-list-point-template.js';
@@ -41,7 +41,7 @@ function createPointTemplate(point) {
         &mdash;
         <time class="event__end-time" datetime="${date.toTimeClass}">${date.toTimeValue}</time>
       </p>
-      <p class="event__duration">30M</p>
+      <p class="event__duration">${getDifferenseDate(dateFrom, dateTo, DATE_FORMAT)}</p>
     </div>
     <p class="event__price">
       &euro;&nbsp;<span class="event__price-value">${basePrice}</span>

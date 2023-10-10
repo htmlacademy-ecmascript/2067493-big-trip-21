@@ -1,19 +1,18 @@
 import ListSortingView from '../view/main/list-sorting-view.js';
 import ListPointView from '../view/main/list-point-view.js';
 import LisrEmptyView from '../view/main/list-empty-view.js';
-import { render } from '../framework/render.js';
+import { render, RenderPosition } from '../framework/render.js';
 import PointPresenter from './point-presenter.js';
-
 export default class MainPresenter {
   #container = null;
   #pointsModel = null;
-
-  #listSorting = new ListSortingView();
+  #listSorting = null;
   #listPoint = new ListPointView();
   #listEmpty = new LisrEmptyView();
 
   #points = [];
   #pointPresenter = new Map();
+  #currenttSortingValue = 'sort-day';
 
   constructor({ container, pointsModel }) {
     this.#container = container;
@@ -22,7 +21,7 @@ export default class MainPresenter {
 
   init() {
     this.#points = [...this.#pointsModel.points];
-
+    this.#renderListSorting();
     this.#renderListPoint();
   }
 
@@ -42,7 +41,11 @@ export default class MainPresenter {
 
   //Метод создает меню сортировки точек маршрута
   #renderListSorting () {
-    render(this.#listSorting, this.#container);
+    this.#listSorting = new ListSortingView ({
+      onClickSorting: this.#handlerClickSorting
+    });
+
+    render(this.#listSorting, this.#container, RenderPosition.AFTERBEGIN);
   }
 
   //Метод создает контейнер в котором будут хранится точки маршрута
@@ -57,7 +60,6 @@ export default class MainPresenter {
       return;
     }
 
-    this.#renderListSorting();
     this.#renderListContainer();
     this.#points.forEach((point) => this.#renderPoint(point));
   }
@@ -78,4 +80,29 @@ export default class MainPresenter {
     pointPresenter.init(point);
     this.#pointPresenter.set(point.id, pointPresenter);
   }
+
+  #sortPoints = (value) => {
+    switch (value) {
+      case 'sort-time':
+        this.#points.sort((a, b) => (b.dateTo - b.dateFrom) - (a.dateTo - a.dateFrom));
+        break;
+      case 'sort-price':
+        this.#points.sort((a, b) => b.basePrice - a.basePrice);
+        break;
+      case 'sort-day':
+        this.#points.sort((a, b) => a.dateFrom - b.dateFrom);
+        break;
+    }
+    this.#currenttSortingValue = value;
+  };
+
+  #handlerClickSorting = (value) => {
+    if(this.#currenttSortingValue === value){
+      return;
+    }
+
+    this.#sortPoints(value);
+    this.#clearListPoint();
+    this.#renderListPoint();
+  };
 }

@@ -32,7 +32,21 @@ function createListSortingTemlate () {
 }
 
 export default class ListSortingView extends AbstractView{
+  #handleClickSorting = null;
+
+  constructor ({onClickSorting}) {
+    super();
+    this.#handleClickSorting = onClickSorting;
+
+    this.element.addEventListener('click', this.#clickSortingHandler);
+  }
+
   get template() {
     return createListSortingTemlate();
   }
+
+  #clickSortingHandler = (evt) => {
+    // evt.preventDefault();
+    this.#handleClickSorting(evt.target.value);
+  };
 }
