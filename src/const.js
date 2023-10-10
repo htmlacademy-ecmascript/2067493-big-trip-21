@@ -37,7 +37,10 @@ const DATE_FORMAT = {
   dateClass: 'YYYY-MM-DD',
   dateValue: 'MMM DD',
   timeValue: 'HH:mm',
-  dateFormEditing: 'DD/MM/YY HH:MM'
+  dateFormEditing: 'DD/MM/YY HH:MM',
+  dateDifferenceDay: 'DD[D] HH[H] mm[M]',
+  dateDifferenceHour: 'HH[H] mm[M]',
+  dateDifferenceMinute: 'mm[M]'
 };
 
 const FilterValue = {
@@ -47,7 +50,10 @@ const FilterValue = {
   PAST: 'past'
 };
 
-let today = new Date ();
+const SECOND = 1000;
+const MINUTE = 60 * SECOND;
+const HOUR = 60 * MINUTE;
+const DAY = HOUR * 24;
 
-export {CITIES, TYPES, DESCRIPTION, DATE_FORMAT, FilterValue, today};
+export {CITIES, TYPES, DESCRIPTION, DATE_FORMAT, FilterValue, DAY, HOUR, MINUTE};
 

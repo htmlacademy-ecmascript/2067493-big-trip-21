@@ -1,5 +1,10 @@
 import dayjs from 'dayjs';
-import { FilterValue, today } from './const.js';
+import duration from 'dayjs/plugin/duration';
+dayjs.extend(duration);
+
+import { FilterValue, DAY, HOUR, MINUTE } from './const.js';
+
+const today = () => dayjs();
 
 // Функция которая дает рандомное число из задаваемого отрезка
 const getRandomInteger = (a, b) => {
@@ -13,13 +18,40 @@ const getRandomInteger = (a, b) => {
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
 //Переформатировать в нужный формат
-const reformatDate = (format, date) => dayjs(date).format(format);
+const reformatDate = (format, dateToFormat) => dayjs(dateToFormat).format(format);
 //
 const filter = {
   [FilterValue.EVERYTHING]: (points) => points,
-  [FilterValue.FUTURE]: (points) => points.filter((itemPoints) => itemPoints.dateFrom > today),
-  [FilterValue.PRESENT]: (points) => points.filter((itemPoints) => itemPoints.dateFrom <= today && itemPoints.dateTo >= today),
-  [FilterValue.PAST]: (points) => points.filter((itemPoints) => itemPoints.dateTo < today)
+  [FilterValue.FUTURE]: (points) => points.filter((itemPoints) => itemPoints.dateFrom > today()),
+  [FilterValue.PRESENT]: (points) => points.filter((itemPoints) => itemPoints.dateFrom <= today() && itemPoints.dateTo >= today()),
+  [FilterValue.PAST]: (points) => points.filter((itemPoints) => itemPoints.dateTo < today())
 };
-export {getRandomInteger, getRandomArrayElement, reformatDate, filter};
+
+let date = dayjs().subtract(getRandomInteger(0, 7), 'day').toDate();
+
+const getDate = ({next}) => {
+  if(next) {
+    date = dayjs(date).add(getRandomInteger(0, 1), 'day')
+      .add(getRandomInteger(0, 5), 'hour')
+      .add(getRandomInteger(0, 30), 'minute')
+      .toDate();
+  }
+  return date;
+};
+
+const getDifferenseDate = (startDate, finishDate, dateFormat) => {
+  const differenseDate = dayjs(finishDate).diff(dayjs(startDate));
+
+  switch(true) {
+    case (differenseDate >= DAY):
+      return dayjs.duration(differenseDate).format(dateFormat.dateDifferenceDay);
+    case (differenseDate >= HOUR):
+      return dayjs.duration(differenseDate).format(dateFormat.dateDifferenceHour);
+    case (differenseDate >= MINUTE):
+      return dayjs.duration(differenseDate).format(dateFormat.dateDifferenceMinute);
+  }
+
+};
+
+export {getRandomInteger, getRandomArrayElement, reformatDate, filter, getDate, getDifferenseDate};
 
